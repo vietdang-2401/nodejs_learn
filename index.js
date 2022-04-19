@@ -1,22 +1,23 @@
-// var http = require('http');
-// var date = require('./myfirstmodule');
-
-// http
-//   .createServer(function (req, res) {
-//     res.writeHead(200, { 'Content-Type': 'text/html' });
-//     res.write('The date and time is: ' + date.myDateTime());
-//     res.end('Hello!');
-//   })
-//   .listen(8080);
-
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 const port = 3000;
+const hbs = require('express-handlebars');
 
-app.get('/abc', (req, res) => {
-  res.send('Hello World!');
+app.use(morgan('combined'));
+
+app.engine('.hbs', hbs.engine({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
+app.set('views', './views');
+
+app.get('/', (req, res) => {
+  res.render('home');
+});
+
+app.get('/news', (req, res) => {
+  res.render('news');
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening on port http://localhost:${port}`);
 });
